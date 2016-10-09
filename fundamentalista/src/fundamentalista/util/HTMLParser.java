@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import fundamentalista.entidade.Cotacao;
+import fundamentalista.entidade.Fundamento;
 import fundamentalista.entidade.Papel;
 
 /**
@@ -22,20 +22,33 @@ import fundamentalista.entidade.Papel;
  */
 public class HTMLParser {
 
-	public List<Papel> parse() {
+	public List<Papel> parteAll() {
+		return parse("http://www.fundamentus.com.br/resultado.php");
+	}
+
+	public List<Papel> parteSetorEnergetico() {
+		return parse("http://www.fundamentus.com.br/resultado.php?setor=32");
+	}
+
+	public List<Papel> parteSetorFinanceiro() {
+		return parse("http://www.fundamentus.com.br/resultado.php?setor=35");
+	}
+	
+	public List<Papel> parteSetorVestuario() {
+		return parse("http://www.fundamentus.com.br/resultado.php?setor=21");
+	}
+
+	private List<Papel> parse(String URL) {
 		List<Papel> papeis = new ArrayList<Papel>();
 		AutenticarProxy proxy = new AutenticarProxy();
 		proxy.autenticar();
 
 		Document doc;
 		Papel papel = null;
-		Cotacao cotacao = null;
+		Fundamento cotacao = null;
 		try {
 
-//			doc = Jsoup.connect("http://www.fundamentus.com.br/resultado.php").get(); // TODOS
-//			doc = Jsoup.connect("http://www.fundamentus.com.br/resultado.php?setor=32").get(); // SETOR ENERGÉTICO
-//			doc = Jsoup.connect("http://www.fundamentus.com.br/resultado.php?setor=5").get(); // SETOR MADEIRA E PAPEL
-			doc = Jsoup.connect("http://www.fundamentus.com.br/resultado.php?setor=21").get(); // SETOR TECIDO, VESTUÁRIO E CALÇADOS
+			doc = Jsoup.connect(URL).get(); // TODOS
 
 			Element table = doc.select("table").get(0); // select the first
 														// table.
@@ -47,27 +60,26 @@ public class HTMLParser {
 				Elements cols = row.select("td");
 
 				papel = new Papel();
-				cotacao = new Cotacao();
+				cotacao = new Fundamento();
 
 				papel.setPapel(cols.get(0).text());
 
 				cotacao.setP_l(Double.parseDouble(cols.get(2).text().replace(".", "").replace(",", ".")));
 				cotacao.setP_vp(Double.parseDouble(cols.get(3).text().replace(".", "").replace(",", ".")));
-				cotacao.setDividentoYIELD(Double.parseDouble(cols.get(5).text().replace(".", "").replace(",", ".").replace("%", ""))); 				
+				cotacao.setDividentoYIELD(Double.parseDouble(cols.get(5).text().replace(".", "").replace(",", ".").replace("%", "")));
 				cotacao.setMargemEBIT(Double.parseDouble(cols.get(11).text().replace(".", "").replace(",", ".").replace("%", "")));
 				cotacao.setLiquidezCorrete(Double.parseDouble(cols.get(13).text().replace(".", "").replace(",", ".")));
 				cotacao.setRoe(Double.parseDouble(cols.get(15).text().replace(".", "").replace(",", ".").replace("%", "")));
 				cotacao.setLiquidez2Meses(Double.parseDouble(cols.get(16).text().replace(".", "").replace(",", ".")));
 				cotacao.setCrescimento(Double.parseDouble(cols.get(19).text().replace(".", "").replace(",", ".").replace("%", "")));
 
-				papel.setCotacoes(cotacao);
+				papel.setFundamento(cotacao);
 				papeis.add(papel);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return papeis;
-
 	}
 
 }
