@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +13,10 @@ import org.springframework.stereotype.Service;
 
 import fundamentalista.FundamentoBusinessException;
 import fundamentalista.entidade.Papel;
+import fundamentalista.entidade.SetorEnum;
 import fundamentalista.repository.PapelRepository;
+import fundamentalista.service.HTMLParseService;
 import fundamentalista.service.PapelService;
-import fundamentalista.util.HTMLParser;
 
 @Service("papelService")
 public class PapelServiceImpl implements PapelService {
@@ -23,7 +25,11 @@ public class PapelServiceImpl implements PapelService {
 	@Autowired
 	private PapelRepository papelRepository;
 
+	@Autowired
+	private HTMLParseService htmlParseService;
+
 	public List<Papel> analizarPapeis(List<Papel> papeis) throws FundamentoBusinessException {
+		logger.info("PapelServiceImpl.analizarPapeis()");
 		List<Papel> papeisCantidatos = new ArrayList<Papel>();
 
 		for (Papel papel : papeis) {
@@ -90,25 +96,40 @@ public class PapelServiceImpl implements PapelService {
 	}
 
 	@Override
-	public List<Papel> findAll() throws FundamentoBusinessException {
-		List<Papel> papeis = (List<Papel>) papelRepository.findAll();
-		if (papeis == null) {
-			HTMLParser parse = new HTMLParser();
-			papeis = parse.parteSetorVestuario();
-			papelRepository.save(papeis);
+	public List<Papel> findBySetor(SetorEnum setor) throws FundamentoBusinessException {
+		logger.info("PapelServiceImpl.findBySetor() " + setor.getDesc());
+		List<Papel> papeis = null;
+		if (SetorEnum.TODOS.equals(setor)) {
+			papeis = (List<Papel>) papelRepository.findAll();
+		} else {
+			papeis = (List<Papel>) papelRepository.findBySetor(setor.getId());
+		}
+
+		if (papeis == null || papeis.isEmpty()) {
+			papeis = createPapeis(setor);
 		}
 		return papeis;
+
 	}
 
-	@Override
-	public List<Papel> findBySetor(Integer setor) throws FundamentoBusinessException {
-		List<Papel> papeis = (List<Papel>) papelRepository.findBySetor(setor);
-		if (papeis == null) {
-			HTMLParser parse = new HTMLParser();
-			papeis = parse.parteSetorVestuario();
-			papelRepository.save(papeis);
+	private List<Papel> createPapeis(SetorEnum setor) {
+		logger.info("PapelServiceImpl.createPapeis() " + setor.getDesc());
+
+		Set<Papel> papeis = htmlParseService.parse(setor);
+
+		if (!SetorEnum.TODOS.equals(setor)) {
+			for (Papel papel : papeis) {
+				Papel tempPapel = null;
+				tempPapel = papelRepository.findByNomeAndPapel(papel.getNome(), papel.getPapel());
+				if (tempPapel != null) {
+					papel.setId(tempPapel.getId());
+					papel.setSetor(setor.getId());
+				}
+			}
 		}
-		return papeis;
+		papelRepository.save(papeis);
+
+		return new ArrayList<Papel>(papeis);
 
 	}
 

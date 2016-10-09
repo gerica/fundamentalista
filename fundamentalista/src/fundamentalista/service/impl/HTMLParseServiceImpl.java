@@ -1,45 +1,34 @@
-package fundamentalista.util;
+package fundamentalista.service.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import fundamentalista.entidade.Fundamento;
 import fundamentalista.entidade.Papel;
+import fundamentalista.entidade.SetorEnum;
+import fundamentalista.service.HTMLParseService;
+import fundamentalista.util.AutenticarProxy;
 
-/**
- * Java Program to parse/read HTML documents from File using Jsoup library.
- * Jsoup is an open source library which allows Java developer to parse HTML
- * files and extract elements, manipulate data, change style using DOM, CSS and
- * JQuery like method.
- *
- * @author Javin Paul
- */
-public class HTMLParser {
+@Service("htmlParseService")
+public class HTMLParseServiceImpl implements HTMLParseService{
 
-	public List<Papel> parteAll() {
-		return parse("http://www.fundamentus.com.br/resultado.php");
+	public Set<Papel> parse(SetorEnum setor) {
+		if (SetorEnum.TODOS.equals(setor)) {
+			return parse("http://www.fundamentus.com.br/resultado.php");
+		} else {
+			return parse("http://www.fundamentus.com.br/resultado.php?setor=" + setor.getId());
+		}
 	}
 
-	public List<Papel> parteSetorEnergetico() {
-		return parse("http://www.fundamentus.com.br/resultado.php?setor=32");
-	}
-
-	public List<Papel> parteSetorFinanceiro() {
-		return parse("http://www.fundamentus.com.br/resultado.php?setor=35");
-	}
-	
-	public List<Papel> parteSetorVestuario() {
-		return parse("http://www.fundamentus.com.br/resultado.php?setor=21");
-	}
-
-	private List<Papel> parse(String URL) {
-		List<Papel> papeis = new ArrayList<Papel>();
+	private Set<Papel> parse(String URL) {
+		Set<Papel> papeis = new HashSet<Papel>();
 		AutenticarProxy proxy = new AutenticarProxy();
 		proxy.autenticar();
 
@@ -63,6 +52,7 @@ public class HTMLParser {
 				cotacao = new Fundamento();
 
 				papel.setPapel(cols.get(0).text());
+				papel.setNome(cols.get(0).select("span").attr("title"));
 
 				cotacao.setP_l(Double.parseDouble(cols.get(2).text().replace(".", "").replace(",", ".")));
 				cotacao.setP_vp(Double.parseDouble(cols.get(3).text().replace(".", "").replace(",", ".")));
@@ -80,6 +70,16 @@ public class HTMLParser {
 			e.printStackTrace();
 		}
 		return papeis;
+	}
+	
+	public static void main(String[] args) {
+		HTMLParseServiceImpl a = new HTMLParseServiceImpl();
+		Set<Papel> papeis = a.parse(SetorEnum.TODOS);
+		System.out.println(papeis.size());
+//		for (Papel papel : papeis) {
+//			System.out.println(papel);
+//		}
+		
 	}
 
 }

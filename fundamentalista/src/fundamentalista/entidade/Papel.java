@@ -2,6 +2,7 @@ package fundamentalista.entidade;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,7 +35,7 @@ public class Papel implements Serializable {
 	// @OrderBy("data ASC")
 	// private Set<Cotacoes> cotacoes;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_fundamento", nullable = false)
 	private Fundamento fundamento;
 
@@ -96,5 +97,38 @@ public class Papel implements Serializable {
 	public void setSetor(Integer setor) {
 		this.setor = setor;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((papel == null) ? 0 : papel.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Papel other = (Papel) obj;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (papel == null) {
+			if (other.papel != null)
+				return false;
+		} else if (!papel.equals(other.papel))
+			return false;
+		return true;
+	}
+	
+	
 
 }

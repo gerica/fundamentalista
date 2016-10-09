@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import fundamentalista.FundamentoBusinessException;
 import fundamentalista.entidade.Papel;
+import fundamentalista.entidade.SetorEnum;
 import fundamentalista.service.PapelService;
 
 @Component
@@ -98,7 +99,7 @@ public class PapelView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				List<Papel> papeis;
 				try {
-					papeis = papelService.findBySetor(21);
+					papeis = papelService.findBySetor(SetorEnum.VESTUARIO);
 					preparar(papelService.analizarPapeis(papeis));
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
@@ -118,7 +119,7 @@ public class PapelView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				List<Papel> papeis;
 				try {
-					papeis = papelService.findBySetor(35);
+					papeis = papelService.findBySetor(SetorEnum.FINANCEIRO);
 					preparar(papelService.analizarPapeis(papeis));
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
@@ -134,12 +135,12 @@ public class PapelView extends JFrame {
 		menuItem = new JMenuItem("Setor Energetico", KeyEvent.VK_E);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				logger.info("PapelView.createMenuItemEnergetico().new ActionListener() {...}.actionPerformed()");
 				List<Papel> papeis;
 				try {
-					papeis = papelService.findBySetor(32);
+					papeis = papelService.findBySetor(SetorEnum.ENERGETICO);
 					preparar(papelService.analizarPapeis(papeis));
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
@@ -158,10 +159,10 @@ public class PapelView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				logger.info("PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() ");
 				List<Papel> papeis;
 				try {
-					logger.info("Service "+papelService);
-					papeis = papelService.findAll();
+					papeis = papelService.findBySetor(SetorEnum.TODOS);
 					preparar(papelService.analizarPapeis(papeis));
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
@@ -172,7 +173,7 @@ public class PapelView extends JFrame {
 		return menuItem;
 	}
 
-	public void preparar(List<Papel> papeis) {
+	private void preparar(List<Papel> papeis) {
 		// headers for the table
 		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROE", "LIQ. 2MESES", "CRESC.", "RANK" };
 
@@ -250,12 +251,12 @@ public class PapelView extends JFrame {
 	}
 
 	public void refresh() {
-//		SwingUtilities.invokeLater(new Runnable() {
-//			@Override
-//			public void run() {
-////				new PapelView();
-//			}
-//		});
+		// SwingUtilities.invokeLater(new Runnable() {
+		// @Override
+		// public void run() {
+		// // new PapelView();
+		// }
+		// });
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 

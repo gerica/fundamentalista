@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import fundamentalista.view.PapelView;
 
 @Configuration
-// @EnableJpaRepositories({ "fundamentalista.*" })
-// @ComponentScan({ "fundamentalista.*" })
 @EntityScan("fundamentalista.*")
 @EnableAutoConfiguration()
 @SpringBootApplication
