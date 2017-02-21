@@ -1,5 +1,6 @@
 package fundamentalista.service.impl;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import fundamentalista.FundamentoBusinessException;
 import fundamentalista.entidade.Papel;
 import fundamentalista.entidade.SetorEnum;
 import fundamentalista.repository.PapelRepository;
+import fundamentalista.service.FireBaseService;
 import fundamentalista.service.HTMLParseService;
 import fundamentalista.service.PapelService;
 
@@ -27,6 +29,9 @@ public class PapelServiceImpl implements PapelService {
 
 	@Autowired
 	private HTMLParseService htmlParseService;
+
+	@Autowired
+	private FireBaseService fireBaseService;
 
 	public List<Papel> analizarPapeis(List<Papel> papeis) throws FundamentoBusinessException {
 		logger.info("PapelServiceImpl.analizarPapeis()");
@@ -99,35 +104,31 @@ public class PapelServiceImpl implements PapelService {
 	public List<Papel> findBySetor(SetorEnum setor) throws FundamentoBusinessException {
 		logger.info("PapelServiceImpl.findBySetor() " + setor.getDesc());
 		List<Papel> papeis = null;
-		if (SetorEnum.TODOS.equals(setor)) {
-			papeis = (List<Papel>) papelRepository.findAll();
-		} else {
-			papeis = (List<Papel>) papelRepository.findBySetor(setor.getId());
+
+		try {
+			papeis = fireBaseService.recuperarPapeis();
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
 		}
 
-		if (papeis == null || papeis.isEmpty()) {
-			papeis = createPapeis(setor);
-		}
 		return papeis;
 
 	}
 
-	private List<Papel> createPapeis(SetorEnum setor) {
+	public List<Papel> createPapeis(SetorEnum setor) {
 		logger.info("PapelServiceImpl.createPapeis() " + setor.getDesc());
 
 		Set<Papel> papeis = htmlParseService.parse(setor);
 
-		if (!SetorEnum.TODOS.equals(setor)) {
-			for (Papel papel : papeis) {
-				Papel tempPapel = null;
-				tempPapel = papelRepository.findByNomeAndPapel(papel.getNome(), papel.getPapel());
-				if (tempPapel != null) {
-					papel.setId(tempPapel.getId());
-					papel.setSetor(setor.getId());
-				}
-			}
+		try {
+			List<Papel> listPapel = analizarPapeis(new ArrayList<Papel>(papeis));
+			fireBaseService.savePapeis(listPapel);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (FundamentoBusinessException e) {
+			e.printStackTrace();
 		}
-		papelRepository.save(papeis);
 
 		return new ArrayList<Papel>(papeis);
 
@@ -195,7 +196,7 @@ public class PapelServiceImpl implements PapelService {
 	}
 
 	/**
-	 * Regra TERÁ QUE SER >0, QUANTO MAIOR MELHOR
+	 * Regra TERï¿½ QUE SER >0, QUANTO MAIOR MELHOR
 	 * 
 	 * @param papeisCantidatos
 	 */
@@ -262,7 +263,7 @@ public class PapelServiceImpl implements PapelService {
 	}
 
 	/**
-	 * O valor estará entre entre 0 e 20 e quanto MENOR MELHOR
+	 * O valor estarï¿½ entre entre 0 e 20 e quanto MENOR MELHOR
 	 * 
 	 * @param papeisCantidatos
 	 */
@@ -278,7 +279,7 @@ public class PapelServiceImpl implements PapelService {
 	}
 
 	/**
-	 * O valor estrará entre entre 1 e 30, e quanto MENOR MELHOR
+	 * O valor estrarï¿½ entre entre 1 e 30, e quanto MENOR MELHOR
 	 * 
 	 * @param papeisCantidatos
 	 */

@@ -188,3 +188,174 @@
 2016-10-09 14:47:32,152 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:162] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
 2016-10-09 14:47:32,152 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:100] PapelServiceImpl.findBySetor() TODOS
 2016-10-09 14:47:32,638 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:32] PapelServiceImpl.analizarPapeis()
+2017-02-20 19:29:10,188 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 19:29:10,745 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 5480 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 19:29:10,745 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 19:29:15,081 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.699 seconds (JVM running for 5.251)
+2017-02-20 19:29:20,027 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:162] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 19:29:20,027 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:100] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 19:29:22,522 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:100] PapelServiceImpl.findBySetor() FINANCEIRO
+2017-02-20 20:45:04,182 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 20:45:04,567 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 9039 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 20:45:04,568 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 20:45:08,588 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.295 seconds (JVM running for 4.957)
+2017-02-20 20:45:12,164 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:164] PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()
+2017-02-20 20:45:12,165 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:116] PapelServiceImpl.createPapeis() TODOS
+2017-02-20 20:51:56,205 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 20:51:56,681 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 9215 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 20:51:56,683 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 20:52:00,252 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 3.911 seconds (JVM running for 4.428)
+2017-02-20 20:57:05,204 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 20:57:05,643 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 9460 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 20:57:05,646 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 20:57:09,083 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 3.765 seconds (JVM running for 4.226)
+2017-02-20 20:57:13,213 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:164] PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()
+2017-02-20 20:57:13,213 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:121] PapelServiceImpl.createPapeis() TODOS
+2017-02-20 20:58:08,868 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 20:58:09,291 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 9527 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 20:58:09,292 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 20:58:12,859 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 3.854 seconds (JVM running for 4.313)
+2017-02-20 20:58:15,221 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:164] PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()
+2017-02-20 20:58:15,222 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:121] PapelServiceImpl.createPapeis() TODOS
+2017-02-20 21:00:02,500 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:00:02,949 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 9592 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:00:02,949 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:00:06,832 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.175 seconds (JVM running for 4.7)
+2017-02-20 21:00:11,266 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:164] PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()
+2017-02-20 21:00:11,266 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:121] PapelServiceImpl.createPapeis() TODOS
+2017-02-20 21:01:27,727 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:01:28,157 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 9648 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:01:28,158 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:01:31,713 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 3.852 seconds (JVM running for 4.341)
+2017-02-20 21:01:34,617 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:164] PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()
+2017-02-20 21:01:34,618 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:121] PapelServiceImpl.createPapeis() TODOS
+2017-02-20 21:06:10,532 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:06:10,987 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 9903 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:06:10,988 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:06:14,970 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.288 seconds (JVM running for 4.834)
+2017-02-20 21:06:17,064 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:164] PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()
+2017-02-20 21:06:17,065 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:121] PapelServiceImpl.createPapeis() TODOS
+2017-02-20 21:06:19,514 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:37] PapelServiceImpl.analizarPapeis()
+2017-02-20 21:06:25,464 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:06:25,465 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:12:40,610 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:12:41,029 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 10105 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:12:41,034 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:12:45,152 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.417 seconds (JVM running for 4.895)
+2017-02-20 21:12:48,883 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:12:48,884 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:13:23,573 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:13:24,017 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 10150 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:13:24,024 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:13:36,959 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 13.245 seconds (JVM running for 14.349)
+2017-02-20 21:13:51,090 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:13:51,091 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:21:51,040 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:21:51,679 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 10374 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:21:51,680 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:21:56,725 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 5.533 seconds (JVM running for 6.162)
+2017-02-20 21:21:59,593 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:164] PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()
+2017-02-20 21:21:59,593 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:120] PapelServiceImpl.createPapeis() TODOS
+2017-02-20 21:22:03,074 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:37] PapelServiceImpl.analizarPapeis()
+2017-02-20 21:22:25,082 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:22:25,083 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:22:42,436 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:22:42,904 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 10477 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:22:42,905 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:22:46,645 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.064 seconds (JVM running for 4.615)
+2017-02-20 21:22:52,176 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:22:52,177 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:23:37,873 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:23:38,301 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 10541 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:23:38,302 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:23:47,950 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 9.94 seconds (JVM running for 10.545)
+2017-02-20 21:23:50,405 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:23:50,406 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:24:29,899 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:24:29,899 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:28:03,464 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:28:04,075 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 11154 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:28:04,075 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:28:14,775 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 11.12 seconds (JVM running for 11.809)
+2017-02-20 21:28:18,003 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:28:18,004 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:34:05,967 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:34:05,967 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:34:51,584 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:34:52,099 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 11448 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:34:52,103 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:35:00,243 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 8.497 seconds (JVM running for 9.125)
+2017-02-20 21:35:03,090 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:35:03,090 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:35:19,995 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:35:19,995 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:38:15,955 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:38:16,523 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 11571 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:38:16,524 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:38:25,801 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 9.674 seconds (JVM running for 10.323)
+2017-02-20 21:38:29,593 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:38:29,593 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:40:47,363 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:40:47,740 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 11667 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:40:47,745 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:40:51,912 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.442 seconds (JVM running for 4.898)
+2017-02-20 21:40:55,415 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:40:55,415 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:41:45,510 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:41:45,907 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 11720 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:41:45,908 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:41:49,507 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 3.891 seconds (JVM running for 4.339)
+2017-02-20 21:41:53,813 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:41:53,814 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:44:06,712 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:44:07,206 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 11834 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:44:07,207 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:44:10,893 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.012 seconds (JVM running for 4.608)
+2017-02-20 21:44:13,958 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:44:13,959 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:49:14,516 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:49:14,981 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12159 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:49:14,982 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:49:18,897 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.246 seconds (JVM running for 4.754)
+2017-02-20 21:49:22,565 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:49:22,567 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:50:01,013 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:50:01,013 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:50:08,809 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:50:09,282 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12221 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:50:09,282 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:50:13,074 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.132 seconds (JVM running for 4.646)
+2017-02-20 21:50:45,231 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:50:45,706 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12260 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:50:45,706 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:50:49,777 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.408 seconds (JVM running for 4.899)
+2017-02-20 21:51:20,036 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:51:20,388 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12296 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:51:20,388 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:51:23,546 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 3.408 seconds (JVM running for 3.846)
+2017-02-20 21:51:33,344 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:51:33,345 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:52:26,641 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:52:27,098 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12365 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:52:27,098 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:52:31,411 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.641 seconds (JVM running for 5.107)
+2017-02-20 21:52:32,575 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:52:32,575 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:55:35,667 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:55:36,146 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12455 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:55:36,147 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:55:40,167 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.345 seconds (JVM running for 4.922)
+2017-02-20 21:55:41,863 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:55:41,865 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:56:57,205 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:56:57,671 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12551 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:56:57,673 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:57:01,686 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 4.345 seconds (JVM running for 4.833)
+2017-02-20 21:57:03,454 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:57:03,454 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS
+2017-02-20 21:57:30,340 INFO [main] f.Executar [Executar.java:25] Fundamentalista inicializar
+2017-02-20 21:57:30,820 INFO [main] f.Executar [StartupInfoLogger.java:48] Starting Executar on rogerio-Inspiron-5537 with PID 12598 (/home/rogerio/git/fundamentalista/fundamentalista/target/classes started by rogerio in /home/rogerio/git/fundamentalista/fundamentalista)
+2017-02-20 21:57:30,821 INFO [main] f.Executar [SpringApplication.java:661] No active profile set, falling back to default profiles: default
+2017-02-20 21:57:34,236 INFO [main] f.Executar [StartupInfoLogger.java:57] Started Executar in 3.747 seconds (JVM running for 4.241)
+2017-02-20 21:57:37,730 INFO [AWT-EventQueue-0] f.v.PapelView [PapelView.java:180] PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() 
+2017-02-20 21:57:37,730 INFO [AWT-EventQueue-0] f.s.i.PapelServiceImpl [PapelServiceImpl.java:105] PapelServiceImpl.findBySetor() TODOS

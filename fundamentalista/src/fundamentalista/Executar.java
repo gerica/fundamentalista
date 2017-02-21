@@ -23,12 +23,6 @@ public class Executar {
 
 	public static void main(String[] args) {
 		logger.info("Fundamentalista inicializar");
-		// ApplicationContext context = new
-		// AnnotationConfigApplicationContext(new Class[] { RootConfig.class });
-		// AnnotationConfigApplicationContext context = new
-		// AnnotationConfigApplicationContext(new Class[] { RootConfig.class });
-		// context.scan("fundamentalista.*");
-		// context.refresh();
 
 		// ApplicationContext ctx = SpringApplication.run(Executar.class, args);
 		ConfigurableApplicationContext ctx = new SpringApplicationBuilder(Executar.class).headless(false).run(args);
@@ -40,12 +34,6 @@ public class Executar {
 				main.refresh();
 			}
 		});
-		//
-		// String[] beanNames = ctx.getBeanDefinitionNames();
-		// Arrays.sort(beanNames);
-		// for (String beanName : beanNames) {
-		// System.out.println(beanName);
-		// }
 
 	}
 

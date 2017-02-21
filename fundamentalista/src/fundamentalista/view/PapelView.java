@@ -37,7 +37,7 @@ public class PapelView extends JFrame {
 	private PapelService papelService;
 
 	public PapelView() {
-		this.setTitle("TABELA MÁGICA");
+		this.setTitle("TABELA Mï¿½GICA");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
@@ -55,15 +55,17 @@ public class PapelView extends JFrame {
 		menuBar = new JMenuBar();
 
 		// Build the first menu.
-		menu = new JMenu("Tabela Mágica");
+		menu = new JMenu("Tabela Mï¿½gica");
 		menu.setMnemonic(KeyEvent.VK_A);
 		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
 		menuBar.add(menu);
 
+		menu.add(createMenuCargaInicial());
+		menu.addSeparator();
 		menu.add(createMenuItemTodoSetor());
-		menu.add(createMenuItemEnergetico());
-		menu.add(createMenuItemFinanceiro());
-		menu.add(createMenuItemVestuario());
+//		menu.add(createMenuItemEnergetico());
+//		menu.add(createMenuItemFinanceiro());
+//		menu.add(createMenuItemVestuario());
 
 		// a submenu
 		menu.addSeparator();
@@ -91,7 +93,7 @@ public class PapelView extends JFrame {
 
 	private JMenuItem createMenuItemVestuario() {
 		JMenuItem menuItem;
-		menuItem = new JMenuItem("Setor Vestuário", KeyEvent.VK_V);
+		menuItem = new JMenuItem("Setor Vestuï¿½rio", KeyEvent.VK_V);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(new ActionListener() {
 
@@ -141,7 +143,7 @@ public class PapelView extends JFrame {
 				List<Papel> papeis;
 				try {
 					papeis = papelService.findBySetor(SetorEnum.ENERGETICO);
-					preparar(papelService.analizarPapeis(papeis));
+					// preparar(papelService.analizarPapeis(papeis));
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
 				}
@@ -151,19 +153,35 @@ public class PapelView extends JFrame {
 		return menuItem;
 	}
 
-	private JMenuItem createMenuItemTodoSetor() {
+	private JMenuItem createMenuCargaInicial() {
 		JMenuItem menuItem;
-		menuItem = new JMenuItem("Todo o Setor", KeyEvent.VK_T);
+		menuItem = new JMenuItem("Carga Inicial", KeyEvent.VK_I);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				logger.info("PapelView.createMenuCargaInicial().new ActionListener() {...}.actionPerformed()");
+				papelService.createPapeis(SetorEnum.TODOS);
+
+			}
+		});
+		return menuItem;
+	}
+
+	private JMenuItem createMenuItemTodoSetor() {
+		JMenuItem menuItem;
+		menuItem = new JMenuItem("Todo o Setor", KeyEvent.VK_T);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.ALT_MASK));
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				logger.info("PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() ");
-				List<Papel> papeis;
+
 				try {
-					papeis = papelService.findBySetor(SetorEnum.TODOS);
-					preparar(papelService.analizarPapeis(papeis));
+					preparar(papelService.findBySetor(SetorEnum.TODOS));
+					//
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
 				}
@@ -175,7 +193,8 @@ public class PapelView extends JFrame {
 
 	private void preparar(List<Papel> papeis) {
 		// headers for the table
-		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROE", "LIQ. 2MESES", "CRESC.", "RANK" };
+		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROE",
+				"LIQ. 2MESES", "CRESC.", "RANK" };
 
 		Object[][] data = new Object[papeis.size() + 3][10];
 		Double somaPL = 0.0;
@@ -209,14 +228,14 @@ public class PapelView extends JFrame {
 			somaCRES += papeis.get(linha).getFundamento().getCrescimento();
 		}
 
-		data[papeis.size() + 1][1] = "MÉDIA P/L";
-		data[papeis.size() + 1][2] = "MÉDIA P/VP";
-		data[papeis.size() + 1][3] = "MÉDIA DIV.YIELD";
-		data[papeis.size() + 1][4] = "MÉDIA MRG EBIT";
-		data[papeis.size() + 1][5] = "MÉDIA LIQ. CORR.";
-		data[papeis.size() + 1][6] = "MÉDIA ROE";
-		data[papeis.size() + 1][7] = "MÉDIA MÉDIA LIQ. 2MESES";
-		data[papeis.size() + 1][8] = "MÉDIA MÉDIA CRESC.";
+		data[papeis.size() + 1][1] = "Mï¿½DIA P/L";
+		data[papeis.size() + 1][2] = "Mï¿½DIA P/VP";
+		data[papeis.size() + 1][3] = "Mï¿½DIA DIV.YIELD";
+		data[papeis.size() + 1][4] = "Mï¿½DIA MRG EBIT";
+		data[papeis.size() + 1][5] = "Mï¿½DIA LIQ. CORR.";
+		data[papeis.size() + 1][6] = "Mï¿½DIA ROE";
+		data[papeis.size() + 1][7] = "Mï¿½DIA Mï¿½DIA LIQ. 2MESES";
+		data[papeis.size() + 1][8] = "Mï¿½DIA Mï¿½DIA CRESC.";
 
 		DecimalFormat df = new DecimalFormat("#.####");
 		df.setRoundingMode(RoundingMode.CEILING);

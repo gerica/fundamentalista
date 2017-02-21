@@ -12,6 +12,8 @@ public interface PapelService {
 
 	public List<Papel> findBySetor(SetorEnum setor) throws FundamentoBusinessException;
 
-//	public List<Papel> findAll() throws FundamentoBusinessException;
+	public List<Papel> createPapeis(SetorEnum setor);
+
+	// public List<Papel> findAll() throws FundamentoBusinessException;
 
 }
