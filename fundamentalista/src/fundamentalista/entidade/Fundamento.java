@@ -2,50 +2,25 @@ package fundamentalista.entidade;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "fundamento")
 public class Fundamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Integer id;
-	@Column(name = "p_l")
 	private Double p_l; // entre 1 e 30
-
-	@Column(name = "p_vp")
 	private Double p_vp; // entre 0 e 20
-
-	@Column(name = "dividentoYIELD")
+	private Double p_sr; // entre 0 e 50
 	private Double dividentoYIELD; // maior que 0
-
-	@Column(name = "margemEBIT")
 	private Double margemEBIT; // TERÁ QUE SER >0
-
-	@Column(name = "liquidezCorrete")
 	private Double liquidezCorrete; // maior que 1
-
-	@Column(name = "roe")
+	private Double roic; // maior que 0%
 	private Double roe; // maior que 0%
-
-	@Column(name = "liquidez2Meses")
 	private Double liquidez2Meses; // maior que 100.000
-
-	@Column(name = "crescimento")
 	private Double crescimento; // maior que 5%
 
 	@Override
 	public String toString() {
-		return "Cotacao [p_l=" + p_l + ", p_vp=" + p_vp + ", roe=" + roe + ", margemEBIT=" + margemEBIT + ", liquidezCorrete=" + liquidezCorrete
-				+ ", crescimento=" + crescimento + ", dividentoYIELD=" + dividentoYIELD + ", liquidez2Meses=" + liquidez2Meses + "]";
+		return "Cotacao [p_l=" + p_l + ", p_vp=" + p_vp + ", roe=" + roe + ", margemEBIT=" + margemEBIT
+				+ ", liquidezCorrete=" + liquidezCorrete + ", crescimento=" + crescimento + ", dividentoYIELD="
+				+ dividentoYIELD + ", liquidez2Meses=" + liquidez2Meses + "]";
 	}
 
 	public Double getP_l() {
@@ -110,6 +85,22 @@ public class Fundamento implements Serializable {
 
 	public void setCrescimento(Double crescimento) {
 		this.crescimento = crescimento;
+	}
+
+	public Double getP_sr() {
+		return p_sr;
+	}
+
+	public void setP_sr(Double p_sr) {
+		this.p_sr = p_sr;
+	}
+
+	public Double getRoic() {
+		return roic;
+	}
+
+	public void setRoic(Double roic) {
+		this.roic = roic;
 	}
 
 }

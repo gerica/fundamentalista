@@ -175,14 +175,16 @@ public class PapelView extends JFrame {
 
 	private void preparar(List<Papel> papeis) {
 		// headers for the table
-		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROE", "LIQ. 2MESES", "CRESC.", "RANK" };
+		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROIC", "ROE",
+				"LIQ. 2MESES", "CRESC.", "RANK" };
 
-		Object[][] data = new Object[papeis.size() + 3][10];
+		Object[][] data = new Object[papeis.size() + 3][11];
 		Double somaPL = 0.0;
 		Double somaPVP = 0.0;
 		Double somaDIVYIELD = 0.0;
 		Double somaMAREBIT = 0.0;
 		Double somaLIQCOR = 0.0;
+		Double somaROIC = 0.0;
 		Double somaROE = 0.0;
 		Double somaLIQMES = 0.0;
 		Double somaCRES = 0.0;
@@ -194,16 +196,18 @@ public class PapelView extends JFrame {
 			data[linha][3] = papeis.get(linha).getFundamento().getDividentoYIELD();
 			data[linha][4] = papeis.get(linha).getFundamento().getMargemEBIT();
 			data[linha][5] = papeis.get(linha).getFundamento().getLiquidezCorrete();
-			data[linha][6] = papeis.get(linha).getFundamento().getRoe();
-			data[linha][7] = papeis.get(linha).getFundamento().getLiquidez2Meses();
-			data[linha][8] = papeis.get(linha).getFundamento().getCrescimento();
-			data[linha][9] = papeis.get(linha).getRank();
+			data[linha][6] = papeis.get(linha).getFundamento().getRoic();
+			data[linha][7] = papeis.get(linha).getFundamento().getRoe();
+			data[linha][8] = papeis.get(linha).getFundamento().getLiquidez2Meses();
+			data[linha][9] = papeis.get(linha).getFundamento().getCrescimento();
+			data[linha][10] = papeis.get(linha).getRank();
 
 			somaPL += papeis.get(linha).getFundamento().getP_l();
 			somaPVP += papeis.get(linha).getFundamento().getP_vp();
 			somaDIVYIELD += papeis.get(linha).getFundamento().getDividentoYIELD();
 			somaMAREBIT += papeis.get(linha).getFundamento().getMargemEBIT();
 			somaLIQCOR += papeis.get(linha).getFundamento().getLiquidezCorrete();
+			somaROIC += papeis.get(linha).getFundamento().getRoic();
 			somaROE += papeis.get(linha).getFundamento().getRoe();
 			somaLIQMES += papeis.get(linha).getFundamento().getLiquidez2Meses();
 			somaCRES += papeis.get(linha).getFundamento().getCrescimento();
@@ -214,9 +218,10 @@ public class PapelView extends JFrame {
 		data[papeis.size() + 1][3] = "MÉDIA DIV.YIELD";
 		data[papeis.size() + 1][4] = "MÉDIA MRG EBIT";
 		data[papeis.size() + 1][5] = "MÉDIA LIQ. CORR.";
-		data[papeis.size() + 1][6] = "MÉDIA ROE";
-		data[papeis.size() + 1][7] = "MÉDIA MÉDIA LIQ. 2MESES";
-		data[papeis.size() + 1][8] = "MÉDIA MÉDIA CRESC.";
+		data[papeis.size() + 1][6] = "MÉDIA ROIC";
+		data[papeis.size() + 1][7] = "MÉDIA ROE";
+		data[papeis.size() + 1][8] = "MÉDIA MÉDIA LIQ. 2MESES";
+		data[papeis.size() + 1][9] = "MÉDIA MÉDIA CRESC.";
 
 		DecimalFormat df = new DecimalFormat("#.####");
 		df.setRoundingMode(RoundingMode.CEILING);

@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fundamentalista.FundamentoBusinessException;
+import fundamentalista.dao.PapelDAO;
 import fundamentalista.entidade.Papel;
 import fundamentalista.entidade.SetorEnum;
-import fundamentalista.repository.PapelRepository;
 import fundamentalista.service.HTMLParseService;
 import fundamentalista.service.PapelService;
 
@@ -23,10 +23,10 @@ public class PapelServiceImpl implements PapelService {
 	private static final Logger logger = LoggerFactory.getLogger(PapelServiceImpl.class);
 
 	@Autowired
-	private PapelRepository papelRepository;
+	private HTMLParseService htmlParseService;
 
 	@Autowired
-	private HTMLParseService htmlParseService;
+	private PapelDAO papelDao;
 
 	public List<Papel> analizarPapeis(List<Papel> papeis) throws FundamentoBusinessException {
 		logger.info("PapelServiceImpl.analizarPapeis()");
@@ -38,6 +38,12 @@ public class PapelServiceImpl implements PapelService {
 				continue;
 			}
 			if (papel.getFundamento().getP_vp() < 0 || papel.getFundamento().getP_vp() > 20) {
+				continue;
+			}
+			if (papel.getFundamento().getP_sr() < 0 || papel.getFundamento().getP_sr() > 50) {
+				continue;
+			}
+			if (papel.getFundamento().getRoic() < 0) {
 				continue;
 			}
 			if (papel.getFundamento().getRoe() < 0) {
@@ -70,6 +76,12 @@ public class PapelServiceImpl implements PapelService {
 		ordenarPorPVP(papeisCantidatos);
 		calcularRank(papeisCantidatos);
 
+//		ordenarPorPSR(papeisCantidatos);
+//		calcularRank(papeisCantidatos);
+
+		ordernarPorROIC(papeisCantidatos);
+		calcularRank(papeisCantidatos);
+
 		ordernarPorROE(papeisCantidatos);
 		calcularRank(papeisCantidatos);
 
@@ -99,11 +111,11 @@ public class PapelServiceImpl implements PapelService {
 	public List<Papel> findBySetor(SetorEnum setor) throws FundamentoBusinessException {
 		logger.info("PapelServiceImpl.findBySetor() " + setor.getDesc());
 		List<Papel> papeis = null;
-		if (SetorEnum.TODOS.equals(setor)) {
-			papeis = (List<Papel>) papelRepository.findAll();
-		} else {
-			papeis = (List<Papel>) papelRepository.findBySetor(setor.getId());
-		}
+//		if (SetorEnum.TODOS.equals(setor)) {
+//			papeis = (List<Papel>) papelRepository.findAll();
+//		} else {
+//			papeis = (List<Papel>) papelRepository.findBySetor(setor.getId());
+//		}
 
 		if (papeis == null || papeis.isEmpty()) {
 			papeis = createPapeis(setor);
@@ -115,21 +127,29 @@ public class PapelServiceImpl implements PapelService {
 	private List<Papel> createPapeis(SetorEnum setor) {
 		logger.info("PapelServiceImpl.createPapeis() " + setor.getDesc());
 
-		Set<Papel> papeis = htmlParseService.parse(setor);
+		if (SetorEnum.TODOS.equals(setor)) {
+			List<Papel> allPapel = papelDao.findAll();
 
-		if (!SetorEnum.TODOS.equals(setor)) {
-			for (Papel papel : papeis) {
-				Papel tempPapel = null;
-				tempPapel = papelRepository.findByNomeAndPapel(papel.getNome(), papel.getPapel());
-				if (tempPapel != null) {
-					papel.setId(tempPapel.getId());
-					papel.setSetor(setor.getId());
-				}
+			if (allPapel == null || allPapel.isEmpty()) {
+				Set<Papel> papeis = htmlParseService.parse(setor);
+				allPapel = new ArrayList<Papel>(papeis);
+				papelDao.gravarAll(allPapel);
+
 			}
-		}
-		papelRepository.save(papeis);
+			return allPapel;
+		} else if (SetorEnum.ENERGETICO.equals(setor)) {
+			List<Papel> allPapel = papelDao.findEnergetico();
 
-		return new ArrayList<Papel>(papeis);
+			if (allPapel == null || allPapel.isEmpty()) {
+				Set<Papel> papeis = htmlParseService.parse(setor);
+				allPapel = new ArrayList<Papel>(papeis);
+				papelDao.gravarEnergetico(allPapel);
+
+			}
+			return allPapel;
+		}
+
+		return new ArrayList<>();
 
 	}
 
@@ -239,9 +259,24 @@ public class PapelServiceImpl implements PapelService {
 			public int compare(Papel p1, Papel p2) {
 				return p2.getFundamento().getRoe().compareTo(p1.getFundamento().getRoe());
 			}
-
 		});
+	}
 
+	/**
+	 * Regra,maior que 0% e quanto MAIOR MELHOR
+	 * 
+	 * ROIC: Retorno sobre o capital investido -> Informe
+	 * 
+	 * @param papeisCantidatos
+	 */
+	private void ordernarPorROIC(List<Papel> papeisCantidatos) {
+		Collections.sort(papeisCantidatos, new Comparator<Papel>() {
+
+			@Override
+			public int compare(Papel p1, Papel p2) {
+				return p2.getFundamento().getRoic().compareTo(p1.getFundamento().getRoic());
+			}
+		});
 	}
 
 	/**
@@ -272,6 +307,24 @@ public class PapelServiceImpl implements PapelService {
 			@Override
 			public int compare(Papel p1, Papel p2) {
 				return p1.getFundamento().getP_vp().compareTo(p2.getFundamento().getP_vp());
+			}
+
+		});
+	}
+
+	/**
+	 * O valor estará entre entre 0 e 50 e quanto MENOR MELHOR
+	 * 
+	 * Preço da ação dividido pela receita liquida
+	 * 
+	 * @param papeisCantidatos
+	 */
+	private void ordenarPorPSR(List<Papel> papeisCantidatos) {
+		Collections.sort(papeisCantidatos, new Comparator<Papel>() {
+
+			@Override
+			public int compare(Papel p1, Papel p2) {
+				return p1.getFundamento().getP_sr().compareTo(p2.getFundamento().getP_sr());
 			}
 
 		});

@@ -14,10 +14,9 @@ import fundamentalista.entidade.Fundamento;
 import fundamentalista.entidade.Papel;
 import fundamentalista.entidade.SetorEnum;
 import fundamentalista.service.HTMLParseService;
-import fundamentalista.util.AutenticarProxy;
 
 @Service("htmlParseService")
-public class HTMLParseServiceImpl implements HTMLParseService{
+public class HTMLParseServiceImpl implements HTMLParseService {
 
 	public Set<Papel> parse(SetorEnum setor) {
 		if (SetorEnum.TODOS.equals(setor)) {
@@ -29,8 +28,8 @@ public class HTMLParseServiceImpl implements HTMLParseService{
 
 	private Set<Papel> parse(String URL) {
 		Set<Papel> papeis = new HashSet<Papel>();
-		AutenticarProxy proxy = new AutenticarProxy();
-		proxy.autenticar();
+//		AutenticarProxy proxy = new AutenticarProxy();
+//		proxy.autenticar();
 
 		Document doc;
 		Papel papel = null;
@@ -56,12 +55,19 @@ public class HTMLParseServiceImpl implements HTMLParseService{
 
 				cotacao.setP_l(Double.parseDouble(cols.get(2).text().replace(".", "").replace(",", ".")));
 				cotacao.setP_vp(Double.parseDouble(cols.get(3).text().replace(".", "").replace(",", ".")));
-				cotacao.setDividentoYIELD(Double.parseDouble(cols.get(5).text().replace(".", "").replace(",", ".").replace("%", "")));
-				cotacao.setMargemEBIT(Double.parseDouble(cols.get(11).text().replace(".", "").replace(",", ".").replace("%", "")));
-				cotacao.setLiquidezCorrete(Double.parseDouble(cols.get(13).text().replace(".", "").replace(",", ".")));
-				cotacao.setRoe(Double.parseDouble(cols.get(15).text().replace(".", "").replace(",", ".").replace("%", "")));
-				cotacao.setLiquidez2Meses(Double.parseDouble(cols.get(16).text().replace(".", "").replace(",", ".")));
-				cotacao.setCrescimento(Double.parseDouble(cols.get(19).text().replace(".", "").replace(",", ".").replace("%", "")));
+				cotacao.setP_sr(Double.parseDouble(cols.get(4).text().replace(".", "").replace(",", ".")));
+				cotacao.setDividentoYIELD(
+						Double.parseDouble(cols.get(5).text().replace(".", "").replace(",", ".").replace("%", "")));
+				cotacao.setMargemEBIT(
+						Double.parseDouble(cols.get(12).text().replace(".", "").replace(",", ".").replace("%", "")));
+				cotacao.setLiquidezCorrete(Double.parseDouble(cols.get(14).text().replace(".", "").replace(",", ".")));
+				cotacao.setRoic(
+						Double.parseDouble(cols.get(15).text().replace(".", "").replace(",", ".").replace("%", "")));
+				cotacao.setRoe(
+						Double.parseDouble(cols.get(16).text().replace(".", "").replace(",", ".").replace("%", "")));
+				cotacao.setLiquidez2Meses(Double.parseDouble(cols.get(17).text().replace(".", "").replace(",", ".")));
+				cotacao.setCrescimento(
+						Double.parseDouble(cols.get(20).text().replace(".", "").replace(",", ".").replace("%", "")));
 
 				papel.setFundamento(cotacao);
 				papeis.add(papel);
@@ -71,7 +77,7 @@ public class HTMLParseServiceImpl implements HTMLParseService{
 		}
 		return papeis;
 	}
-	
+
 	public static void main(String[] args) {
 		HTMLParseServiceImpl a = new HTMLParseServiceImpl();
 		Set<Papel> papeis = a.parse(SetorEnum.TODOS);
@@ -79,7 +85,7 @@ public class HTMLParseServiceImpl implements HTMLParseService{
 //		for (Papel papel : papeis) {
 //			System.out.println(papel);
 //		}
-		
+
 	}
 
 }

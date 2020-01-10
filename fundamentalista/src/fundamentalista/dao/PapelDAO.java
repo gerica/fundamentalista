@@ -8,8 +8,11 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import fundamentalista.entidade.Papel;
 
+@Service
 public class PapelDAO {
 
 	private static final String BASE = "papel.ser";
