@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import fundamentalista.FundamentoBusinessException;
 import fundamentalista.dao.PapelDAO;
 import fundamentalista.entidade.Papel;
+import fundamentalista.entidade.Parametro;
 import fundamentalista.entidade.SetorEnum;
 import fundamentalista.service.HTMLParseService;
 import fundamentalista.service.PapelService;
@@ -28,7 +29,8 @@ public class PapelServiceImpl implements PapelService {
 	@Autowired
 	private PapelDAO papelDao;
 
-	public List<Papel> analizarPapeis(List<Papel> papeis) throws FundamentoBusinessException {
+	public List<Papel> analizarPapeis(List<Papel> papeis, List<Parametro> parametros)
+			throws FundamentoBusinessException {
 		logger.info("PapelServiceImpl.analizarPapeis()");
 		List<Papel> papeisCantidatos = new ArrayList<Papel>();
 
@@ -70,38 +72,7 @@ public class PapelServiceImpl implements PapelService {
 		System.out.println("Antes de aplicar as regras:  " + papeis.size());
 		System.out.println("Depois de aplicar as regras: " + papeisCantidatos.size());
 
-		ordenarPorPL(papeisCantidatos);
-		calcularRank(papeisCantidatos);
-
-		ordenarPorPVP(papeisCantidatos);
-		calcularRank(papeisCantidatos);
-
-//		ordenarPorPSR(papeisCantidatos);
-//		calcularRank(papeisCantidatos);
-
-		ordernarPorROIC(papeisCantidatos);
-		calcularRank(papeisCantidatos);
-
-		ordernarPorROE(papeisCantidatos);
-		calcularRank(papeisCantidatos);
-
-		ordernarPorDividendoYIELD(papeisCantidatos);
-		calcularRank(papeisCantidatos);
-
-		ordernarPorLiquidezCorrente(papeisCantidatos);
-		calcularRank(papeisCantidatos);
-
-		ordernarPorMargemEBIT(papeisCantidatos);
-		calcularRank(papeisCantidatos);
-
-		// ordernarPorCresimento(papeisCantidatos);
-		// calcularRank(papeisCantidatos);
-		//
-		// ordernarPorLiquides2Meses(papeisCantidatos);
-		// calcularRank(papeisCantidatos);
-
-		ordenarPorRank(papeisCantidatos);
-		organizarRank(papeisCantidatos);
+		ordenar(parametros, papeisCantidatos);
 
 		return papeisCantidatos;
 
@@ -122,6 +93,53 @@ public class PapelServiceImpl implements PapelService {
 		}
 		return papeis;
 
+	}
+
+	private void ordenar(List<Parametro> parametros, List<Papel> papeisCantidatos) {
+
+		for (Parametro parametro : parametros) {
+			if (parametro.isAtivo()) {
+				switch (parametro.getDescricao()) {
+				case "P/L":
+					ordenarPorPL(papeisCantidatos);
+					break;
+				case "P/VP":
+					ordenarPorPVP(papeisCantidatos);
+					break;
+				case "PSR":
+					ordenarPorPSR(papeisCantidatos);
+					break;
+				case "ROIC":
+					ordernarPorROIC(papeisCantidatos);
+					break;
+				case "ROE":
+					ordernarPorROE(papeisCantidatos);
+					break;
+				case "DIV.YIELD":
+					ordernarPorDividendoYIELD(papeisCantidatos);
+					break;
+				case "LIQ. CORR.":
+					ordernarPorLiquidezCorrente(papeisCantidatos);
+					break;
+				case "MRG EBIT":
+					ordernarPorMargemEBIT(papeisCantidatos);
+					break;
+				case "CRESC.":
+					ordernarPorCresimento(papeisCantidatos);
+					break;
+				case "LIQ. 2MESES":
+					ordernarPorLiquides2Meses(papeisCantidatos);
+					break;
+
+				default:
+					break;
+				}
+				calcularRank(papeisCantidatos);
+			}
+		}
+
+		ordenarPorRank(papeisCantidatos);
+		organizarRank(papeisCantidatos);
 	}
 
 	private List<Papel> createPapeis(SetorEnum setor) {

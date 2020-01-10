@@ -3,12 +3,19 @@ package fundamentalista.view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -25,16 +32,23 @@ import org.springframework.stereotype.Component;
 
 import fundamentalista.FundamentoBusinessException;
 import fundamentalista.entidade.Papel;
+import fundamentalista.entidade.Parametro;
 import fundamentalista.entidade.SetorEnum;
 import fundamentalista.service.PapelService;
 
 @Component
 public class PapelView extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(PapelView.class);
 
 	@Autowired
 	private PapelService papelService;
+
+	private List<Parametro> parametros;
+
+	private SetorEnum setorSelecionado;
 
 	public PapelView() {
 		this.setTitle("TABELA MÁGICA");
@@ -42,6 +56,20 @@ public class PapelView extends JFrame {
 		this.pack();
 		this.setVisible(true);
 		setSize(1200, 600);
+
+		parametros = new ArrayList<>();
+
+		parametros.add(new Parametro("P/L", true));
+		parametros.add(new Parametro("P/VP", true));
+		parametros.add(new Parametro("PSR", false));
+		parametros.add(new Parametro("DIV.YIELD", true));
+		parametros.add(new Parametro("MRG EBIT", true));
+		parametros.add(new Parametro("LIQ. CORR.", true));
+		parametros.add(new Parametro("ROIC", false));
+		parametros.add(new Parametro("ROE", true));
+		parametros.add(new Parametro("LIQ. 2MESES", false));
+		parametros.add(new Parametro("CRESC.", false));
+
 		// setPreferredSize(new Dimension(1200, 600));
 		createMenu();
 	}
@@ -100,7 +128,7 @@ public class PapelView extends JFrame {
 				List<Papel> papeis;
 				try {
 					papeis = papelService.findBySetor(SetorEnum.VESTUARIO);
-					preparar(papelService.analizarPapeis(papeis));
+					preparar(papelService.analizarPapeis(papeis, parametros));
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
 				}
@@ -120,7 +148,7 @@ public class PapelView extends JFrame {
 				List<Papel> papeis;
 				try {
 					papeis = papelService.findBySetor(SetorEnum.FINANCEIRO);
-					preparar(papelService.analizarPapeis(papeis));
+					preparar(papelService.analizarPapeis(papeis, parametros));
 				} catch (FundamentoBusinessException e1) {
 					e1.printStackTrace();
 				}
@@ -138,13 +166,8 @@ public class PapelView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logger.info("PapelView.createMenuItemEnergetico().new ActionListener() {...}.actionPerformed()");
-				List<Papel> papeis;
-				try {
-					papeis = papelService.findBySetor(SetorEnum.ENERGETICO);
-					preparar(papelService.analizarPapeis(papeis));
-				} catch (FundamentoBusinessException e1) {
-					e1.printStackTrace();
-				}
+				setorSelecionado = SetorEnum.ENERGETICO;
+				atualizarPapeis();
 
 			}
 		});
@@ -160,14 +183,8 @@ public class PapelView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logger.info("PapelView.createMenuItemTodoSetor().new ActionListener() {...}.actionPerformed() ");
-				List<Papel> papeis;
-				try {
-					papeis = papelService.findBySetor(SetorEnum.TODOS);
-					preparar(papelService.analizarPapeis(papeis));
-				} catch (FundamentoBusinessException e1) {
-					e1.printStackTrace();
-				}
-
+				setorSelecionado = SetorEnum.TODOS;
+				atualizarPapeis();
 			}
 		});
 		return menuItem;
@@ -175,12 +192,11 @@ public class PapelView extends JFrame {
 
 	private void preparar(List<Papel> papeis) {
 		// headers for the table
-		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROIC", "ROE",
-				"LIQ. 2MESES", "CRESC.", "RANK" };
 
-		Object[][] data = new Object[papeis.size() + 3][11];
+		Object[][] data = new Object[papeis.size() + 3][12];
 		Double somaPL = 0.0;
 		Double somaPVP = 0.0;
+		Double somaPSR = 0.0;
 		Double somaDIVYIELD = 0.0;
 		Double somaMAREBIT = 0.0;
 		Double somaLIQCOR = 0.0;
@@ -193,17 +209,19 @@ public class PapelView extends JFrame {
 			data[linha][0] = papeis.get(linha).getPapel();
 			data[linha][1] = papeis.get(linha).getFundamento().getP_l();
 			data[linha][2] = papeis.get(linha).getFundamento().getP_vp();
-			data[linha][3] = papeis.get(linha).getFundamento().getDividentoYIELD();
-			data[linha][4] = papeis.get(linha).getFundamento().getMargemEBIT();
-			data[linha][5] = papeis.get(linha).getFundamento().getLiquidezCorrete();
-			data[linha][6] = papeis.get(linha).getFundamento().getRoic();
-			data[linha][7] = papeis.get(linha).getFundamento().getRoe();
-			data[linha][8] = papeis.get(linha).getFundamento().getLiquidez2Meses();
-			data[linha][9] = papeis.get(linha).getFundamento().getCrescimento();
-			data[linha][10] = papeis.get(linha).getRank();
+			data[linha][3] = papeis.get(linha).getFundamento().getP_sr();
+			data[linha][4] = papeis.get(linha).getFundamento().getDividentoYIELD();
+			data[linha][5] = papeis.get(linha).getFundamento().getMargemEBIT();
+			data[linha][6] = papeis.get(linha).getFundamento().getLiquidezCorrete();
+			data[linha][7] = papeis.get(linha).getFundamento().getRoic();
+			data[linha][8] = papeis.get(linha).getFundamento().getRoe();
+			data[linha][9] = papeis.get(linha).getFundamento().getLiquidez2Meses();
+			data[linha][10] = papeis.get(linha).getFundamento().getCrescimento();
+			data[linha][11] = papeis.get(linha).getRank();
 
 			somaPL += papeis.get(linha).getFundamento().getP_l();
 			somaPVP += papeis.get(linha).getFundamento().getP_vp();
+			somaPSR += papeis.get(linha).getFundamento().getP_sr();
 			somaDIVYIELD += papeis.get(linha).getFundamento().getDividentoYIELD();
 			somaMAREBIT += papeis.get(linha).getFundamento().getMargemEBIT();
 			somaLIQCOR += papeis.get(linha).getFundamento().getLiquidezCorrete();
@@ -215,13 +233,14 @@ public class PapelView extends JFrame {
 
 		data[papeis.size() + 1][1] = "MÉDIA P/L";
 		data[papeis.size() + 1][2] = "MÉDIA P/VP";
-		data[papeis.size() + 1][3] = "MÉDIA DIV.YIELD";
-		data[papeis.size() + 1][4] = "MÉDIA MRG EBIT";
-		data[papeis.size() + 1][5] = "MÉDIA LIQ. CORR.";
-		data[papeis.size() + 1][6] = "MÉDIA ROIC";
-		data[papeis.size() + 1][7] = "MÉDIA ROE";
-		data[papeis.size() + 1][8] = "MÉDIA MÉDIA LIQ. 2MESES";
-		data[papeis.size() + 1][9] = "MÉDIA MÉDIA CRESC.";
+		data[papeis.size() + 1][3] = "MÉDIA PSR";
+		data[papeis.size() + 1][4] = "MÉDIA DIV.YIELD";
+		data[papeis.size() + 1][5] = "MÉDIA MRG EBIT";
+		data[papeis.size() + 1][6] = "MÉDIA LIQ. CORR.";
+		data[papeis.size() + 1][7] = "MÉDIA ROIC";
+		data[papeis.size() + 1][8] = "MÉDIA ROE";
+		data[papeis.size() + 1][9] = "MÉDIA MÉDIA LIQ. 2MESES";
+		data[papeis.size() + 1][10] = "MÉDIA MÉDIA CRESC.";
 
 		DecimalFormat df = new DecimalFormat("#.####");
 		df.setRoundingMode(RoundingMode.CEILING);
@@ -235,8 +254,18 @@ public class PapelView extends JFrame {
 		data[papeis.size() + 2][7] = df.format(somaLIQMES / papeis.size());
 		data[papeis.size() + 2][8] = df.format(somaCRES / papeis.size());
 
+//		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROIC", "ROE",
+//				"LIQ. 2MESES", "CRESC.", "RANK" };
+
+		List<String> columns = new ArrayList<>();
+		columns.add("PAPEL");
+		for (Parametro parametro : parametros) {
+			columns.add(parametro.getDescricao());
+		}
+		columns.add("RANK");
+
 		// create table with data
-		JTable table = new JTable(data, columns);
+		JTable table = new JTable(data, columns.toArray());
 		table.setRowHeight(0, 30);
 		table.setRowHeight(1, 30);
 		table.setRowHeight(2, 30);
@@ -245,14 +274,53 @@ public class PapelView extends JFrame {
 
 		table.setFillsViewportHeight(true);
 
-		JPanel p = new JPanel(new BorderLayout()); // PREFERRED!
-		p.add(new JScrollPane(table));
-		// this.add(p);
+		JPanel panelTable = new JPanel(new BorderLayout()); // PREFERRED!
+		panelTable.add(new JScrollPane(table));
+
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		container.add(panelInfo());
+		container.add(panelTable);
+
 		this.getContentPane().removeAll();
-		this.getContentPane().add(p);
+		this.getContentPane().add(container);
 
 		SwingUtilities.updateComponentTreeUI(this);
 		// this.repaint();
+	}
+
+	private JPanel panelInfo() {
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		// setbackground of panel
+//		panel.setBackground(Color.BLUE);
+		panel.add(new JLabel("Parâmetros:"));
+
+		for (Parametro parametro : parametros) {
+			JCheckBox jCheckBox = new JCheckBox(parametro.getDescricao(), parametro.isAtivo());
+//
+//			jCheckBox.addActionListener(new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					System.out.println(e.getID() == ActionEvent.ACTION_PERFORMED ? "ACTION_PERFORMED" : e.getID());
+//				}
+//			});
+			jCheckBox.addItemListener(new ItemListener() {
+
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					JCheckBox item = (JCheckBox) e.getItem();
+					mudarParametros(item, e.getStateChange() == ItemEvent.SELECTED);
+					atualizarPapeis();
+//					System.out.println(e.getStateChange() == ItemEvent.SELECTED ? "SELECTED" : "DESELECTED");
+				}
+			});
+
+			panel.add(jCheckBox);
+		}
+
+		return panel;
 	}
 
 	public void refresh() {
@@ -263,6 +331,25 @@ public class PapelView extends JFrame {
 		// }
 		// });
 		SwingUtilities.updateComponentTreeUI(this);
+	}
+
+	private void mudarParametros(JCheckBox item, boolean ativo) {
+		for (Parametro parametro : parametros) {
+			if (parametro.getDescricao().equalsIgnoreCase(item.getText())) {
+				parametro.setAtivo(ativo);
+			}
+		}
+	}
+
+	private void atualizarPapeis() {
+		List<Papel> papeis;
+
+		try {
+			papeis = papelService.findBySetor(setorSelecionado);
+			preparar(papelService.analizarPapeis(papeis, parametros));
+		} catch (FundamentoBusinessException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 }
