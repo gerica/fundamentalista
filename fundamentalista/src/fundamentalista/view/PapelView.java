@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,8 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.border.Border;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,6 @@ import fundamentalista.entidade.Papel;
 import fundamentalista.entidade.Parametro;
 import fundamentalista.entidade.SetorEnum;
 import fundamentalista.service.PapelService;
-import fundamentalista.view.component.JTextFieldValidation;
 
 @Component
 public class PapelView extends JFrame {
@@ -278,7 +277,7 @@ public class PapelView extends JFrame {
 
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-		container.add(panelFiltro());
+		container.add(panelFiltro(papeis.size()));
 		container.add(panelInfo());
 		container.add(panelTable);
 
@@ -326,7 +325,7 @@ public class PapelView extends JFrame {
 		return panel;
 	}
 
-	private JPanel panelFiltro() {
+	private JPanel panelFiltro(Integer totalPapeis) {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		panel.setBackground(colorPanel);
@@ -344,56 +343,11 @@ public class PapelView extends JFrame {
 				}
 			});
 			jCheckBox.setBackground(colorPanel);
-
-//			JTextField text = new JTextField(parametro.getMin().toString(), 5);
-			JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
-
-//			text.addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					System.out.println(e.getSource());
-//				}
-//			});
-
-//			text.addPropertyChangeListener(new PropertyChangeListener() {
-//				public void propertyChange(PropertyChangeEvent evt) {
-//					System.out.println(evt);
-//				}
-//			});
-			text.getDocument().addDocumentListener(new DocumentListener() {
-				public void changedUpdate(DocumentEvent e) {
-					updateTextField();
-				}
-
-				public void removeUpdate(DocumentEvent e) {
-					updateTextField();
-				}
-
-				public void insertUpdate(DocumentEvent e) {
-					updateTextField();
-				}
-
-				public void updateTextField() {
-					if (text != null && !text.getText().trim().equals("") && Integer.parseInt(text.getText()) > 0) {
-						int min = Integer.parseInt(text.getText());
-						mudarFiltro(parametro, min);
-						atualizarPapeis();
-					}
-				}
-			});
-
-			JPanel iPanel = new JPanel();
-			iPanel.setBackground(colorPanel);
-			iPanel.setLayout(new BoxLayout(iPanel, BoxLayout.Y_AXIS));
-			iPanel.setBorder(
-					BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
-
-			iPanel.add(jCheckBox);
-			iPanel.add(text);
-			panel.add(iPanel);
+			panel.add(jCheckBox);
 		}
 
+		JLabel qtdPapeis = new JLabel(" Qtd: " + totalPapeis);
+		panel.add(qtdPapeis);
 		return panel;
 	}
 
