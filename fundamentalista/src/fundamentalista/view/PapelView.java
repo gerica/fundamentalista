@@ -1,6 +1,7 @@
 package fundamentalista.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -15,7 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,6 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,7 @@ import fundamentalista.entidade.Papel;
 import fundamentalista.entidade.Parametro;
 import fundamentalista.entidade.SetorEnum;
 import fundamentalista.service.PapelService;
+import fundamentalista.view.component.JTextFieldValidation;
 
 @Component
 public class PapelView extends JFrame {
@@ -50,6 +53,8 @@ public class PapelView extends JFrame {
 
 	private SetorEnum setorSelecionado;
 
+	private Color colorPanel = new Color(230, 255, 255);
+
 	public PapelView() {
 		this.setTitle("TABELA MÁGICA");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,16 +64,16 @@ public class PapelView extends JFrame {
 
 		parametros = new ArrayList<>();
 
-		parametros.add(new Parametro("P/L", true));
-		parametros.add(new Parametro("P/VP", true));
-		parametros.add(new Parametro("PSR", false));
-		parametros.add(new Parametro("DIV.YIELD", true));
-		parametros.add(new Parametro("MRG EBIT", true));
-		parametros.add(new Parametro("LIQ. CORR.", true));
-		parametros.add(new Parametro("ROIC", false));
-		parametros.add(new Parametro("ROE", true));
-		parametros.add(new Parametro("LIQ. 2MESES", false));
-		parametros.add(new Parametro("CRESC.", false));
+		parametros.add(new Parametro("P/L", true, true, 1, 1000));
+		parametros.add(new Parametro("P/VP", true, true, 0, 1000));
+		parametros.add(new Parametro("PSR", false, true, 0, 1000));
+		parametros.add(new Parametro("DIV.YIELD", true, true, 0));
+		parametros.add(new Parametro("MRG EBIT", true, true, 0));
+		parametros.add(new Parametro("LIQ. CORR.", true, true, 1));
+		parametros.add(new Parametro("ROIC", false, true, 0));
+		parametros.add(new Parametro("ROE", true, true, 0));
+		parametros.add(new Parametro("LIQ. 2MESES", false, true, 100000));
+		parametros.add(new Parametro("CRESC.", false, true, 5));
 
 		// setPreferredSize(new Dimension(1200, 600));
 		createMenu();
@@ -125,13 +130,9 @@ public class PapelView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				List<Papel> papeis;
-				try {
-					papeis = papelService.findBySetor(SetorEnum.VESTUARIO);
-					preparar(papelService.analizarPapeis(papeis, parametros));
-				} catch (FundamentoBusinessException e1) {
-					e1.printStackTrace();
-				}
+				logger.info("PapelView.createMenuItemVestuario().new ActionListener() {...}.actionPerformed()");
+				setorSelecionado = SetorEnum.VESTUARIO;
+				atualizarPapeis();
 			}
 		});
 		return menuItem;
@@ -145,14 +146,9 @@ public class PapelView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				List<Papel> papeis;
-				try {
-					papeis = papelService.findBySetor(SetorEnum.FINANCEIRO);
-					preparar(papelService.analizarPapeis(papeis, parametros));
-				} catch (FundamentoBusinessException e1) {
-					e1.printStackTrace();
-				}
-
+				logger.info("PapelView.createMenuItemFinanceiro().new ActionListener() {...}.actionPerformed()");
+				setorSelecionado = SetorEnum.FINANCEIRO;
+				atualizarPapeis();
 			}
 		});
 		return menuItem;
@@ -247,12 +243,14 @@ public class PapelView extends JFrame {
 
 		data[papeis.size() + 2][1] = df.format(somaPL / papeis.size());
 		data[papeis.size() + 2][2] = df.format(somaPVP / papeis.size());
-		data[papeis.size() + 2][3] = df.format(somaDIVYIELD / papeis.size());
-		data[papeis.size() + 2][4] = df.format(somaMAREBIT / papeis.size());
-		data[papeis.size() + 2][5] = df.format(somaLIQCOR / papeis.size());
-		data[papeis.size() + 2][6] = df.format(somaROE / papeis.size());
-		data[papeis.size() + 2][7] = df.format(somaLIQMES / papeis.size());
-		data[papeis.size() + 2][8] = df.format(somaCRES / papeis.size());
+		data[papeis.size() + 2][3] = df.format(somaPSR / papeis.size());
+		data[papeis.size() + 2][4] = df.format(somaDIVYIELD / papeis.size());
+		data[papeis.size() + 2][5] = df.format(somaMAREBIT / papeis.size());
+		data[papeis.size() + 2][6] = df.format(somaLIQCOR / papeis.size());
+		data[papeis.size() + 2][7] = df.format(somaROIC / papeis.size());
+		data[papeis.size() + 2][8] = df.format(somaROE / papeis.size());
+		data[papeis.size() + 2][9] = df.format(somaLIQMES / papeis.size());
+		data[papeis.size() + 2][10] = df.format(somaCRES / papeis.size());
 
 //		String[] columns = new String[] { "PAPEL", "P/L", "P/VP", "DIV.YIELD", "MRG EBIT", "LIQ. CORR.", "ROIC", "ROE",
 //				"LIQ. 2MESES", "CRESC.", "RANK" };
@@ -265,20 +263,22 @@ public class PapelView extends JFrame {
 		columns.add("RANK");
 
 		// create table with data
-		JTable table = new JTable(data, columns.toArray());
-		table.setRowHeight(0, 30);
-		table.setRowHeight(1, 30);
-		table.setRowHeight(2, 30);
-		table.setRowHeight(3, 30);
-		table.setRowHeight(4, 30);
+		JTable jTtable = new JTable(data, columns.toArray());
+		jTtable.setRowHeight(0, 30);
+		jTtable.setRowHeight(1, 30);
+		jTtable.setRowHeight(2, 30);
+		jTtable.setRowHeight(3, 30);
+		jTtable.setRowHeight(4, 30);
 
-		table.setFillsViewportHeight(true);
+		jTtable.setFillsViewportHeight(true);
 
 		JPanel panelTable = new JPanel(new BorderLayout()); // PREFERRED!
-		panelTable.add(new JScrollPane(table));
+		panelTable.setBackground(colorPanel);
+		panelTable.add(new JScrollPane(jTtable));
 
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		container.add(panelFiltro());
 		container.add(panelInfo());
 		container.add(panelTable);
 
@@ -293,8 +293,11 @@ public class PapelView extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		// setbackground of panel
-//		panel.setBackground(Color.BLUE);
-		panel.add(new JLabel("Parâmetros:"));
+		panel.setBackground(colorPanel);
+//		panel.add(new JLabel("Parâmetros:"));
+
+//		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Parâmetros"));
 
 		for (Parametro parametro : parametros) {
 			JCheckBox jCheckBox = new JCheckBox(parametro.getDescricao(), parametro.isAtivo());
@@ -316,8 +319,79 @@ public class PapelView extends JFrame {
 //					System.out.println(e.getStateChange() == ItemEvent.SELECTED ? "SELECTED" : "DESELECTED");
 				}
 			});
-
+			jCheckBox.setBackground(colorPanel);
 			panel.add(jCheckBox);
+		}
+
+		return panel;
+	}
+
+	private JPanel panelFiltro() {
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		panel.setBackground(colorPanel);
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Filtros:"));
+
+		for (Parametro parametro : parametros) {
+			JCheckBox jCheckBox = new JCheckBox(parametro.getDescricao(), parametro.isAplicarFiltro());
+			jCheckBox.addItemListener(new ItemListener() {
+
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					JCheckBox item = (JCheckBox) e.getItem();
+					mudarFiltro(item, e.getStateChange() == ItemEvent.SELECTED);
+					atualizarPapeis();
+				}
+			});
+			jCheckBox.setBackground(colorPanel);
+
+//			JTextField text = new JTextField(parametro.getMin().toString(), 5);
+			JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+
+//			text.addActionListener(new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					System.out.println(e.getSource());
+//				}
+//			});
+
+//			text.addPropertyChangeListener(new PropertyChangeListener() {
+//				public void propertyChange(PropertyChangeEvent evt) {
+//					System.out.println(evt);
+//				}
+//			});
+			text.getDocument().addDocumentListener(new DocumentListener() {
+				public void changedUpdate(DocumentEvent e) {
+					updateTextField();
+				}
+
+				public void removeUpdate(DocumentEvent e) {
+					updateTextField();
+				}
+
+				public void insertUpdate(DocumentEvent e) {
+					updateTextField();
+				}
+
+				public void updateTextField() {
+					if (text != null && !text.getText().trim().equals("") && Integer.parseInt(text.getText()) > 0) {
+						int min = Integer.parseInt(text.getText());
+						mudarFiltro(parametro, min);
+						atualizarPapeis();
+					}
+				}
+			});
+
+			JPanel iPanel = new JPanel();
+			iPanel.setBackground(colorPanel);
+			iPanel.setLayout(new BoxLayout(iPanel, BoxLayout.Y_AXIS));
+			iPanel.setBorder(
+					BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+			iPanel.add(jCheckBox);
+			iPanel.add(text);
+			panel.add(iPanel);
 		}
 
 		return panel;
@@ -331,6 +405,18 @@ public class PapelView extends JFrame {
 		// }
 		// });
 		SwingUtilities.updateComponentTreeUI(this);
+	}
+
+	private void mudarFiltro(JCheckBox item, boolean filtro) {
+		for (Parametro parametro : parametros) {
+			if (parametro.getDescricao().equalsIgnoreCase(item.getText())) {
+				parametro.setAplicarFiltro(filtro);
+			}
+		}
+	}
+
+	private void mudarFiltro(Parametro parametro, Integer min) {
+		parametro.setMin(min);
 	}
 
 	private void mudarParametros(JCheckBox item, boolean ativo) {

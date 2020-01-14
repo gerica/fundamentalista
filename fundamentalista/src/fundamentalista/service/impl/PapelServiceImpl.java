@@ -34,38 +34,71 @@ public class PapelServiceImpl implements PapelService {
 		logger.info("PapelServiceImpl.analizarPapeis()");
 		List<Papel> papeisCantidatos = new ArrayList<Papel>();
 
-		for (Papel papel : papeis) {
+		LOOP_PAPEL: for (Papel papel : papeis) {
 			// System.out.println(papel);
-			if (papel.getFundamento().getP_l() < 1 || papel.getFundamento().getP_l() > 30) {
-				continue;
+			for (Parametro parametro : parametros) {
+				if (parametro.isAplicarFiltro()) {
+					switch (parametro.getDescricao()) {
+					case "P/L":
+						if (papel.getFundamento().getP_l() < parametro.getMin()
+								|| papel.getFundamento().getP_l() > parametro.getMax()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "P/VP":
+						if (papel.getFundamento().getP_vp() < parametro.getMin()
+								|| papel.getFundamento().getP_vp() > parametro.getMax()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "PSR":
+						if (papel.getFundamento().getP_sr() < parametro.getMin()
+								|| papel.getFundamento().getP_sr() > parametro.getMax()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "ROIC":
+						if (papel.getFundamento().getRoic() < parametro.getMin()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "ROE":
+						if (papel.getFundamento().getRoe() < parametro.getMin()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "DIV.YIELD":
+						if (papel.getFundamento().getDividentoYIELD() <= parametro.getMin()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "LIQ. CORR.":
+						if (papel.getFundamento().getLiquidezCorrete() < parametro.getMin()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "MRG EBIT":
+						if (papel.getFundamento().getMargemEBIT() < parametro.getMin()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "CRESC.":
+						if (papel.getFundamento().getCrescimento() < parametro.getMin()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+					case "LIQ. 2MESES":
+						if (papel.getFundamento().getLiquidez2Meses() < parametro.getMin()) {
+							continue LOOP_PAPEL;
+						}
+						break;
+
+					default:
+						break;
+					}
+				}
 			}
-			if (papel.getFundamento().getP_vp() < 0 || papel.getFundamento().getP_vp() > 20) {
-				continue;
-			}
-			if (papel.getFundamento().getP_sr() < 0 || papel.getFundamento().getP_sr() > 50) {
-				continue;
-			}
-			if (papel.getFundamento().getRoic() < 0) {
-				continue;
-			}
-			if (papel.getFundamento().getRoe() < 0) {
-				continue;
-			}
-			if (papel.getFundamento().getDividentoYIELD() <= 0) {
-				continue;
-			}
-			if (papel.getFundamento().getLiquidezCorrete() < 1) {
-				continue;
-			}
-			if (papel.getFundamento().getMargemEBIT() < 0) {
-				continue;
-			}
-			if (papel.getFundamento().getCrescimento() < 5) {
-				continue;
-			}
-			if (papel.getFundamento().getLiquidez2Meses() < 100000) {
-				continue;
-			}
+
 			papeisCantidatos.add(papel);
 
 		}
@@ -162,6 +195,26 @@ public class PapelServiceImpl implements PapelService {
 				Set<Papel> papeis = htmlParseService.parse(setor);
 				allPapel = new ArrayList<Papel>(papeis);
 				papelDao.gravarEnergetico(allPapel);
+
+			}
+			return allPapel;
+		} else if (SetorEnum.VESTUARIO.equals(setor)) {
+			List<Papel> allPapel = papelDao.findVestuario();
+
+			if (allPapel == null || allPapel.isEmpty()) {
+				Set<Papel> papeis = htmlParseService.parse(setor);
+				allPapel = new ArrayList<Papel>(papeis);
+				papelDao.gravarVestuario(allPapel);
+
+			}
+			return allPapel;
+		} else if (SetorEnum.FINANCEIRO.equals(setor)) {
+			List<Papel> allPapel = papelDao.findFinanceiro();
+
+			if (allPapel == null || allPapel.isEmpty()) {
+				Set<Papel> papeis = htmlParseService.parse(setor);
+				allPapel = new ArrayList<Papel>(papeis);
+				papelDao.gravarFinaneiro(allPapel);
 
 			}
 			return allPapel;
