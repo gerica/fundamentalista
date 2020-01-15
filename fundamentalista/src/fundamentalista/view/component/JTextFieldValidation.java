@@ -15,7 +15,8 @@ public class JTextFieldValidation extends JTextField {
 
 	@Override
 	public void processKeyEvent(KeyEvent ev) {
-		if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == 8) {
+		if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == 8 || ev.getKeyCode() == 37
+				|| ev.getKeyCode() == 39) {
 			super.processKeyEvent(ev);
 		}
 		ev.consume();

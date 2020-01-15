@@ -2,6 +2,7 @@ package fundamentalista.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -14,18 +15,21 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +41,7 @@ import fundamentalista.entidade.Papel;
 import fundamentalista.entidade.Parametro;
 import fundamentalista.entidade.SetorEnum;
 import fundamentalista.service.PapelService;
+import fundamentalista.view.component.JTextFieldValidation;
 
 @Component
 public class PapelView extends JFrame {
@@ -92,6 +97,12 @@ public class PapelView extends JFrame {
 		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
 		menuBar.add(menu);
 
+		// Build the first menu.
+		JMenu configMenu = new JMenu("Configurar");
+		menuBar.add(configMenu);
+
+		configMenu.add(createMenuConfigure());
+
 		menu.add(createMenuItemTodoSetor());
 		menu.add(createMenuItemEnergetico());
 		menu.add(createMenuItemFinanceiro());
@@ -104,6 +115,570 @@ public class PapelView extends JFrame {
 
 		setJMenuBar(menuBar);
 
+	}
+
+	private JMenuItem createMenuConfigure() {
+		JMenuItem menuItem;
+		menuItem = new JMenuItem("Parametros", KeyEvent.VK_T);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				logger.info("PapelView.createMenuConfigure().new ActionListener() {...}.actionPerformed() ");
+				setorSelecionado = SetorEnum.TODOS;
+				atualizarConfigure();
+			}
+		});
+		return menuItem;
+
+	}
+
+	private void atualizarConfigure() {
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		panel.setBackground(colorPanel);
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Parametros:"));
+//		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+//		panel.setLayout(new GridLayout(1, 1));
+
+//		panel.setLayout(new GridBagLayout());
+//		GridBagConstraints gbc = new GridBagConstraints();
+//		gbc.gridwidth = GridBagConstraints.REMAINDER;
+
+		JPanel container = new JPanel();
+		container.setBackground(colorPanel);
+		container.setLayout(new GridLayout(3, 1));
+
+		JPanel panelA = new JPanel();
+		panelA.setBackground(colorPanel);
+
+		JPanel panelB = new JPanel();
+		panelB.setBackground(colorPanel);
+
+		JPanel panelC = new JPanel();
+		panelC.setBackground(colorPanel);
+
+		panelA.add(campoPL());
+		panelA.add(campoPVP());
+		panelA.add(campoPSR());
+		panelA.add(campoDivYield());
+		panelA.add(campoMrgEbit());
+
+		panelB.add(campoLiqCorr());
+		panelB.add(campoLiqMeses());
+		panelB.add(campoCresc());
+		panelB.add(campoROIC());
+		panelB.add(campoROE());
+
+		JButton button1 = new JButton("Salvar");
+		JFrame framePai = this;
+		button1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				JOptionPane.showMessageDialog(framePai, "Operação realizada com sucesso", // mensagem
+						"Sucesso", // titulo da janela
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		panelC.add(button1);
+
+//		gbc.insets = new Insets(30, 0, 0, 0);
+//		panel.add(button1, gbc);
+		container.add(panelA);
+		container.add(panelB);
+		container.add(panelC);
+
+		panel.add(container);
+
+		this.getContentPane().removeAll();
+		this.getContentPane().add(panel);
+
+		SwingUtilities.updateComponentTreeUI(this);
+	}
+
+	private JPanel campoPL() {
+		JPanel iPanel = new JPanel();
+		Parametro parametroPl = parametros.get(0);
+
+		JLabel labelMinimo = new JLabel("Mínimo: ");
+		JLabel labelMaximo = new JLabel("Máximo: ");
+
+		JTextFieldValidation textPlMinimo = new JTextFieldValidation(parametroPl.getMin().toString(), 5);
+		textPlMinimo.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = textPlMinimo.getText();
+				if (textPlMinimo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+					parametroPl.setMin(min);
+				}
+			}
+		});
+
+		JTextFieldValidation textPlMaximo = new JTextFieldValidation(parametroPl.getMax().toString(), 5);
+		textPlMaximo.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = textPlMaximo.getText();
+				if (textPlMaximo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int max = Integer.parseInt(value);
+					parametroPl.setMax(max);
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametroPl.getDescricao()));
+
+		iPanel.add(labelMinimo);
+		iPanel.add(textPlMinimo);
+		iPanel.add(labelMaximo);
+		iPanel.add(textPlMaximo);
+
+		return iPanel;
+	}
+
+	private JPanel campoPVP() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(1);
+
+		JLabel labelMinimo = new JLabel("Mínimo: ");
+		JLabel labelMaximo = new JLabel("Máximo: ");
+
+		JTextFieldValidation textPlMinimo = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		textPlMinimo.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = textPlMinimo.getText();
+				if (textPlMinimo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		JTextFieldValidation textPlMaximo = new JTextFieldValidation(parametro.getMax().toString(), 5);
+		textPlMaximo.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = textPlMaximo.getText();
+				if (textPlMaximo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(labelMinimo);
+		iPanel.add(textPlMinimo);
+		iPanel.add(labelMaximo);
+		iPanel.add(textPlMaximo);
+		return iPanel;
+	}
+
+	private JPanel campoPSR() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(2);
+
+		JLabel labelMinimo = new JLabel("Mínimo: ");
+		JLabel labelMaximo = new JLabel("Máximo: ");
+
+		JTextFieldValidation textPlMinimo = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		textPlMinimo.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = textPlMinimo.getText();
+				if (textPlMinimo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		JTextFieldValidation textPlMaximo = new JTextFieldValidation(parametro.getMax().toString(), 5);
+		textPlMaximo.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = textPlMaximo.getText();
+				if (textPlMaximo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(labelMinimo);
+		iPanel.add(textPlMinimo);
+		iPanel.add(labelMaximo);
+		iPanel.add(textPlMaximo);
+
+		return iPanel;
+	}
+
+	private JPanel campoDivYield() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(3);
+
+		JLabel label = new JLabel("Valor: ");
+
+		JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		text.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = text.getText();
+				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(label);
+		iPanel.add(text);
+
+		return iPanel;
+	}
+
+	private JPanel campoMrgEbit() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(4);
+
+		JLabel label = new JLabel("Valor: ");
+
+		JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		text.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = text.getText();
+				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(label);
+		iPanel.add(text);
+
+		return iPanel;
+	}
+
+	private JPanel campoLiqCorr() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(5);
+
+		JLabel label = new JLabel("Valor: ");
+
+		JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		text.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = text.getText();
+				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(label);
+		iPanel.add(text);
+
+		return iPanel;
+	}
+
+	private JPanel campoROIC() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(6);
+
+		JLabel label = new JLabel("Valor: ");
+
+		JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		text.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = text.getText();
+				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(label);
+		iPanel.add(text);
+
+		return iPanel;
+	}
+
+	private JPanel campoROE() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(7);
+
+		JLabel label = new JLabel("Valor: ");
+
+		JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		text.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = text.getText();
+				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(label);
+		iPanel.add(text);
+
+		return iPanel;
+	}
+
+	private JPanel campoCresc() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(9);
+
+		JLabel label = new JLabel("Valor: ");
+
+		JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		text.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = text.getText();
+				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(label);
+		iPanel.add(text);
+
+		return iPanel;
+	}
+
+	private JPanel campoLiqMeses() {
+		JPanel iPanel = new JPanel();
+		Parametro parametro = parametros.get(8);
+
+		JLabel label = new JLabel("Valor: ");
+
+		JTextFieldValidation text = new JTextFieldValidation(parametro.getMin().toString(), 5);
+		text.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				updateTextField();
+			}
+
+			public void updateTextField() {
+				String value = text.getText();
+				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
+					int min = Integer.parseInt(value);
+//					mudarFiltro(parametroPl, min);
+//					atualizarPapeis();
+				}
+			}
+		});
+
+		iPanel.setBackground(colorPanel);
+		iPanel.setLayout(new GridLayout(0, 2));
+		iPanel.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), parametro.getDescricao()));
+
+		iPanel.add(label);
+		iPanel.add(text);
+
+		return iPanel;
 	}
 
 	private JMenuItem createMenuItemSair() {
