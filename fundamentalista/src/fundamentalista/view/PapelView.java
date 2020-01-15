@@ -288,6 +288,7 @@ public class PapelView extends JFrame {
 				String value = textPlMinimo.getText();
 				if (textPlMinimo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
+					parametro.setMin(min);
 //					mudarFiltro(parametroPl, min);
 //					atualizarPapeis();
 				}
@@ -311,7 +312,8 @@ public class PapelView extends JFrame {
 			public void updateTextField() {
 				String value = textPlMaximo.getText();
 				if (textPlMaximo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
-
+					int max = Integer.parseInt(value);
+					parametro.setMax(max);
 				}
 			}
 		});
@@ -353,6 +355,7 @@ public class PapelView extends JFrame {
 				String value = textPlMinimo.getText();
 				if (textPlMinimo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
+					parametro.setMin(min);
 //					mudarFiltro(parametroPl, min);
 //					atualizarPapeis();
 				}
@@ -376,7 +379,8 @@ public class PapelView extends JFrame {
 			public void updateTextField() {
 				String value = textPlMaximo.getText();
 				if (textPlMaximo != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
-
+					int max = Integer.parseInt(value);
+					parametro.setMax(max);
 				}
 			}
 		});
@@ -418,8 +422,7 @@ public class PapelView extends JFrame {
 				String value = text.getText();
 				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
-//					mudarFiltro(parametroPl, min);
-//					atualizarPapeis();
+					parametro.setMin(min);
 				}
 			}
 		});
@@ -459,8 +462,7 @@ public class PapelView extends JFrame {
 				String value = text.getText();
 				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
-//					mudarFiltro(parametroPl, min);
-//					atualizarPapeis();
+					parametro.setMin(min);
 				}
 			}
 		});
@@ -500,8 +502,7 @@ public class PapelView extends JFrame {
 				String value = text.getText();
 				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
-//					mudarFiltro(parametroPl, min);
-//					atualizarPapeis();
+					parametro.setMin(min);
 				}
 			}
 		});
@@ -541,8 +542,7 @@ public class PapelView extends JFrame {
 				String value = text.getText();
 				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
-//					mudarFiltro(parametroPl, min);
-//					atualizarPapeis();
+					parametro.setMin(min);
 				}
 			}
 		});
@@ -582,8 +582,7 @@ public class PapelView extends JFrame {
 				String value = text.getText();
 				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
-//					mudarFiltro(parametroPl, min);
-//					atualizarPapeis();
+					parametro.setMin(min);
 				}
 			}
 		});
@@ -623,8 +622,7 @@ public class PapelView extends JFrame {
 				String value = text.getText();
 				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
-//					mudarFiltro(parametroPl, min);
-//					atualizarPapeis();
+					parametro.setMin(min);
 				}
 			}
 		});
@@ -664,8 +662,7 @@ public class PapelView extends JFrame {
 				String value = text.getText();
 				if (text != null && !value.trim().equals("") && Integer.parseInt(value) > 0) {
 					int min = Integer.parseInt(value);
-//					mudarFiltro(parametroPl, min);
-//					atualizarPapeis();
+					parametro.setMin(min);
 				}
 			}
 		});
